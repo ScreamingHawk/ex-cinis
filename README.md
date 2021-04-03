@@ -9,26 +9,27 @@ dependencies:
 git clone https://github.com/ScreamingHawk/ex-cinis.git
 cd ex-cinis
 yarn
+cd frontend
+yarn
+cd ..
 ```
 
 Once installed, let's run Hardhat's testing network:
 
 ```sh
-yarn hardhat node
+yarn local:node
 ```
 
 Then, on a new terminal, go to the repository's root folder and run this to deploy your contract:
 
 ```sh
-yarn hardhat run scripts/deploy.js --network localhost
+yarn local:deploy
 ```
 
 Finally, we can run the frontend with:
 
 ```sh
-cd frontend
-yarn
-yarn start
+yarn frontend
 ```
 
 Open [http://localhost:3000/](http://localhost:3000/) to see your Dapp. You will need to have [Metamask](https://metamask.io) installed and listening to `localhost 8545`.
