@@ -57,4 +57,13 @@ describe('GearToken contract', function () {
 			expect(await gearToken.balanceOf(addr1.address)).to.equal(8)
 		})
 	})
+
+	describe('Get Gear', function () {
+		it('Should return gear data', async function () {
+			expect(await gearToken.balanceOf(owner.address)).to.equal(1)
+			const tokenId = await gearToken.tokenOfOwnerByIndex(owner.address, 0)
+			const gear = await gearToken.gears(tokenId)
+			expect(gear.data._hex).not.to.equal('0x')
+		})
+	})
 })
