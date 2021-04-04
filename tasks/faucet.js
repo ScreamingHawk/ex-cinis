@@ -1,7 +1,4 @@
-const fs = require('fs')
-
-// This file is only here to make interacting with the Dapp easier,
-// feel free to ignore it if you don't need it.
+// Transfer ETH. Useful to give your test address some ETH
 
 task('faucet', 'Sends ETH to an address')
 	.addPositionalParam('receiver', 'The address that will receive them')
@@ -14,23 +11,6 @@ task('faucet', 'Sends ETH to an address')
 			)
 		}
 
-		const addressesFile =
-			__dirname + '/../frontend/src/contracts/contract-address.json'
-
-		if (!fs.existsSync(addressesFile)) {
-			console.error('You need to deploy your contract first')
-			return
-		}
-
-		const addressJson = fs.readFileSync(addressesFile)
-		const address = JSON.parse(addressJson)
-
-		// if ((await ethers.provider.getCode(address.Token)) === '0x') {
-		// 	console.error('You need to deploy your contract first')
-		// 	return
-		// }
-
-		// const token = await ethers.getContractAt('Token', address.Token)
 		const [sender] = await ethers.getSigners()
 
 		const tx = await sender.sendTransaction({

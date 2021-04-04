@@ -6,20 +6,14 @@ chai.use(solidity)
 describe('Map contract', () => {
 	let Map
 	let map
-	let xCenter
-	let yCenter
+	const xCenter = 32767
+	const yCenter = 32767
 	let owner
 	let addrs
 
 	before(async () => {
 		Map = await ethers.getContractFactory('Map')
 		;[owner, ...addrs] = await ethers.getSigners()
-
-		map = await Map.deploy()
-		await map.deployed()
-
-		xCenter = await map.xCenter()
-		yCenter = await map.yCenter()
 	})
 
 	beforeEach(async () => {
@@ -29,8 +23,8 @@ describe('Map contract', () => {
 
 	describe('Initialisation', () => {
 		it('Should center values', async () => {
-			expect(xCenter).to.equal(32767)
-			expect(yCenter).to.equal(32767)
+			expect(await map.xCenter()).to.equal(xCenter)
+			expect(await map.yCenter()).to.equal(yCenter)
 		})
 		it('Should create location in center', async () => {
 			expect(await map.xyLocation(xCenter, yCenter)).to.equal(1)
@@ -49,13 +43,13 @@ describe('Map contract', () => {
 
 	describe('Updating map', () => {
 		it('Owner can add a location', async () => {
-			await expect(map.addLocation(1, 2, 3))
+			await expect(map.updateLocation(1, 2, 3))
 				.to.emit(map, 'MapUpdated')
 				.withArgs(1, 2, 3)
 		})
 		it('Non owner cannot add a location', async () => {
 			await expect(
-				map.connect(addrs[0]).addLocation(1, 2, 3)
+				map.connect(addrs[0]).updateLocation(1, 2, 3)
 			).to.be.revertedWith('Ownable: caller is not the owner')
 		})
 	})

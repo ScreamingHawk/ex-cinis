@@ -34,6 +34,14 @@ yarn frontend
 
 Open [http://localhost:3000/](http://localhost:3000/) to see your Dapp. You will need to have [Metamask](https://metamask.io) installed and listening to `localhost 8545`.
 
+## Scripts
+
+The map initialises with a single location in the center. To add more locations use the script:
+
+```sh
+yarn hardhat --network localhost populateMap
+```
+
 ## Technology
 
 Your environment will have everything you need to build a Dapp powered by Hardhat and React.

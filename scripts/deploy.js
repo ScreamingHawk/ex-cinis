@@ -1,4 +1,4 @@
-// This is a script for deploying contracts
+// This is a script for populating the map with locations
 const main = async () => {
 	// This is just a convenience check
 	if (network.name === 'hardhat') {
@@ -21,7 +21,7 @@ const main = async () => {
 		(await deployer.getBalance()).toString()
 	)
 
-	const names = ['GearToken']
+	const names = ['GearToken', 'Map']
 
 	const addresses = await Promise.all(
 		names.map(async name => {

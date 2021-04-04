@@ -24,7 +24,7 @@ contract Map is Ownable {
 	/**
 	 * @dev Allows admins to update map locations
 	 */
-	function addLocation(
+	function updateLocation(
 		uint16 xPos,
 		uint16 yPos,
 		uint8 location
@@ -32,4 +32,6 @@ contract Map is Ownable {
 		xyLocation[xPos][yPos] = location;
 		emit MapUpdated(xPos, yPos, location);
 	}
+
+	//TODO Add bulk updateLocation
 }
