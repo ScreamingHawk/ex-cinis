@@ -1,6 +1,5 @@
-// This is a script for deploying your contracts. You can adapt it to deploy
-// yours, or create new ones.
-async function main() {
+// This is a script for deploying contracts
+const main = async () => {
 	// This is just a convenience check
 	if (network.name === 'hardhat') {
 		console.warn(
@@ -17,19 +16,35 @@ async function main() {
 		await deployer.getAddress()
 	)
 
-	console.log('Account balance:', (await deployer.getBalance()).toString())
+	console.log(
+		'Account balance before:',
+		(await deployer.getBalance()).toString()
+	)
 
-	const Contract = await ethers.getContractFactory('GearToken')
-	const contractResult = await Contract.deploy()
-	await contractResult.deployed()
+	const names = ['GearToken']
 
-	console.log('Token address:', contractResult.address)
+	const addresses = await Promise.all(
+		names.map(async name => {
+			const Contract = await ethers.getContractFactory(name)
+			const contractResult = await Contract.deploy()
+			await contractResult.deployed()
 
-	// We also save the contract's artifacts and address in the frontend directory
-	saveFrontendFiles(contractResult, 'GearToken')
+			console.log(`${name} address: ${contractResult.address}`)
+
+			return contractResult.address
+		})
+	)
+
+	console.log(
+		'Account balance after:',
+		(await deployer.getBalance()).toString()
+	)
+
+	// We also save the contract's artifacts and addresses in the frontend directory
+	saveFrontendFiles(addresses, names)
 }
 
-function saveFrontendFiles(contract, name) {
+function saveFrontendFiles(addresses, names) {
 	const fs = require('fs')
 	const contractsDir = `${__dirname}/../frontend/src/contracts`
 
@@ -37,19 +52,24 @@ function saveFrontendFiles(contract, name) {
 		fs.mkdirSync(contractsDir)
 	}
 
+	// Create address file
 	const fileData = {}
-	fileData[name] = contract.address
+	for (let i = 0; i < names.length; i++) {
+		fileData[names[i]] = addresses[i]
+	}
 	fs.writeFileSync(
 		`${contractsDir}/contract-address.json`,
 		JSON.stringify(fileData, undefined, 2)
 	)
 
-	const TokenArtifact = artifacts.readArtifactSync(name)
+	names.forEach(name => {
+		const Artifact = artifacts.readArtifactSync(name)
 
-	fs.writeFileSync(
-		`${contractsDir}/${name}.json`,
-		JSON.stringify(TokenArtifact, null, 2)
-	)
+		fs.writeFileSync(
+			`${contractsDir}/${name}.json`,
+			JSON.stringify(Artifact, null, 2)
+		)
+	})
 }
 
 main()
