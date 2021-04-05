@@ -42,13 +42,41 @@ The map initialises with a single location in the center. To add more locations 
 yarn hardhat --network localhost populateMap
 ```
 
+## Deployment
+
+### Secrets
+
+Create a copy of `secrets.sample.json` and name it `secrets.json`.
+
+Go to [Infura](https://infura.io/), create a project and retrieve the API key. Update `INFURA_API_KEY` with this value.
+
+Create an ETH private and public key. Update `RINKEBY_PRIVATE_KEY` with this value.
+Navigate to a [Rinkeby faucet](https://faucet.rinkeby.io/) and request Ether.
+
+### Deploy Contracts
+
+Run the following to deploy the contracts to the Rinkeby test network:
+
+```sh
+yarn hardhat run ./scripts/deploy.js --network rinkeby >> deploy.log 2>> deploy_err.log
+```
+
+Check `deploy.log` for success logs and `deploy_err.log` for error logs.
+
+The deployed addresses are written to `frontend/src/contracts/contract-address.json`.
+This file is git ignored and overridden by every deployment. You should store the values somewhere if you want to keep them.
+
+### Frontend
+
+TODO
+
 ## Technology
 
-Your environment will have everything you need to build a Dapp powered by Hardhat and React.
+The technology stack for our Dapp:
 
 - [Hardhat](https://hardhat.org/): An Ethereum development task runner and testing network.
 - [Mocha](https://mochajs.org/): A JavaScript test runner.
 - [Chai](https://www.chaijs.com/): A JavaScript assertion library.
 - [ethers.js](https://docs.ethers.io/ethers.js/html/): A JavaScript library for interacting with Ethereum.
-- [Waffle](https://github.com/EthWorks/Waffle/): To have Ethereum-specific Chai assertions/mathers.
-- [A sample frontend/Dapp](./frontend): A Dapp which uses [Create React App](https://github.com/facebook/create-react-app).
+- [Waffle](https://github.com/EthWorks/Waffle/): Ethereum-specific Chai assertions/mathers.
+- [React](https://reactjs.org/): A frontend application for calling the Dapp.

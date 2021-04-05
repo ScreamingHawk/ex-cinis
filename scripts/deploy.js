@@ -23,17 +23,18 @@ const main = async () => {
 
 	const names = ['GearToken', 'Map']
 
-	const addresses = await Promise.all(
-		names.map(async name => {
-			const Contract = await ethers.getContractFactory(name)
-			const contractResult = await Contract.deploy()
-			await contractResult.deployed()
+	const addresses = []
+	for (let i = 0; i < names.length; i++) {
+		const name = names[i]
+		console.log(`Deploying ${name}`)
 
-			console.log(`${name} address: ${contractResult.address}`)
+		const Contract = await ethers.getContractFactory(name)
+		const contractResult = await Contract.deploy()
+		await contractResult.deployed()
 
-			return contractResult.address
-		})
-	)
+		console.log(`${name} address: ${contractResult.address}`)
+		addresses.push(contractResult.address)
+	}
 
 	console.log(
 		'Account balance after:',

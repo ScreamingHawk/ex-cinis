@@ -1,6 +1,13 @@
 node_modules
 .idea
 
-#Hardhat files
+# Hardhat files
 cache
 artifacts
+
+# Secrets
+secrets*.json
+!secrets.sample.json
+
+# Logs
+*.log
