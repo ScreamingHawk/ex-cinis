@@ -92,7 +92,7 @@ export class Dapp extends React.Component {
 
 				<div className="row">
 					<div className="col-12">
-						{this.state.gearTotal.eq(0) && (
+						{this.state.balance.eq(0) && (
 							<NoEtherMessage selectedAddress={this.state.selectedAddress} />
 						)}
 
