@@ -16,6 +16,7 @@ import { NoEtherMessage } from './NoEtherMessage'
 
 import {
 	HARDHAT_NETWORK_ID,
+	RINKEBY_NETWORK_ID,
 	ERROR_CODE_TX_REJECTED_BY_USER,
 } from '../util/constants'
 import { getRpcMessage } from '../util/errorHelper'
@@ -231,7 +232,11 @@ export class Dapp extends React.Component {
 	}
 
 	_checkNetwork() {
-		if (window.ethereum.networkVersion === HARDHAT_NETWORK_ID) {
+		const { networkVersion } = window.ethereum
+		if (
+			networkVersion === HARDHAT_NETWORK_ID ||
+			networkVersion === RINKEBY_NETWORK_ID
+		) {
 			return true
 		}
 
