@@ -80,3 +80,9 @@ The technology stack for our Dapp:
 - [ethers.js](https://docs.ethers.io/ethers.js/html/): A JavaScript library for interacting with Ethereum.
 - [Waffle](https://github.com/EthWorks/Waffle/): Ethereum-specific Chai assertions/mathers.
 - [React](https://reactjs.org/): A frontend application for calling the Dapp.
+
+## Credits
+
+[Michael Standen](https://michael.standen.link)
+
+This software is provided under the [MIT License](https://tldrlegal.com/license/mit-license) so it's free to use so long as you give me credit.
