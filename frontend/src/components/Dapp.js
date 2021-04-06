@@ -21,7 +21,11 @@ import {
 import { getRpcMessage } from '../util/errorHelper'
 import { getNetworkName } from '../util/networkHelper'
 
-import { getContract, getContractAddress } from '../util/contracts'
+import {
+	getContract,
+	getContractAddress,
+	contractsDeployed,
+} from '../util/contracts'
 
 export class Dapp extends React.Component {
 	constructor(props) {
@@ -237,16 +241,12 @@ export class Dapp extends React.Component {
 	}
 
 	_checkNetwork() {
-		const { networkVersion } = window.ethereum
-		if (
-			networkVersion === HARDHAT_NETWORK_ID ||
-			networkVersion === RINKEBY_NETWORK_ID
-		) {
+		if (contractsDeployed()) {
 			return true
 		}
 
 		this.setState({
-			networkError: 'Please connect Metamask to Localhost:8545',
+			networkError: `Contracts not deployed to ${getNetworkName()}. Please connect Metamask to Localhost:8545`,
 		})
 
 		return false

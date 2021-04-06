@@ -55,3 +55,12 @@ export const getContractAddress = name => {
 	}
 	throw new Error(`Contracts not available on the ${getNetworkName()} network`)
 }
+
+export const contractsDeployed = () => {
+	const network = window.ethereum.networkVersion
+	return (
+		network &&
+		contracts[network] &&
+		Object.keys(contracts[network]).length === 3
+	)
+}
