@@ -1,5 +1,9 @@
 # Ex Cinis
 
+An Ethereum block chain game.
+
+Testing instance available at: https://ex-cinis.netlify.app
+
 ## Quick start
 
 The first things you need to do are cloning this repository and installing its
@@ -68,7 +72,37 @@ This file is git ignored and overridden by every deployment. You should store th
 
 ### Frontend
 
-TODO
+For deployment we use [netlify](https://www.netlify.com/). Install the cli with:
+
+```sh
+yarn global add netlify-cli
+```
+
+Build the frontend for deployment:
+
+```sh
+cd frontend
+yarn build
+```
+
+Configure netlify for deployment, following the prompts:
+
+```sh
+netlify deploy
+> Create & configure a new site
+> <Your name> team
+> ex-cinis
+> build
+```
+
+Navigate the URL provided and confirm the front end is good.
+
+Then deploy to "production" with:
+
+```
+netlify deploy --prod
+> build
+```
 
 ## Technology
 
