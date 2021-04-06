@@ -42,12 +42,12 @@ const main = async () => {
 	)
 
 	// We also save the contract's artifacts and addresses in the frontend directory
-	saveFrontendFiles(addresses, names)
+	saveFrontendFiles(addresses, names, network.name)
 }
 
-function saveFrontendFiles(addresses, names) {
+function saveFrontendFiles(addresses, names, networkName) {
 	const fs = require('fs')
-	const contractsDir = `${__dirname}/../frontend/src/contracts`
+	const contractsDir = `${__dirname}/../frontend/src/contracts/${networkName.toLowerCase()}`
 
 	if (!fs.existsSync(contractsDir)) {
 		fs.mkdirSync(contractsDir)

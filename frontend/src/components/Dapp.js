@@ -2,9 +2,6 @@ import React from 'react'
 
 import { ethers } from 'ethers'
 
-import GearTokenArtifact from '../contracts/GearToken.json'
-import contractAddress from '../contracts/contract-address.json'
-
 import { Row } from './styled/Layout'
 
 import { NoWalletDetected } from './NoWalletDetected'
@@ -23,6 +20,8 @@ import {
 } from '../util/constants'
 import { getRpcMessage } from '../util/errorHelper'
 import { getNetworkName } from '../util/networkHelper'
+
+import { getContract, getContractAddress } from '../util/contracts'
 
 export class Dapp extends React.Component {
 	constructor(props) {
@@ -154,8 +153,8 @@ export class Dapp extends React.Component {
 
 		// Init contract
 		this._gearToken = new ethers.Contract(
-			contractAddress.GearToken,
-			GearTokenArtifact.abi,
+			getContractAddress('GearToken'),
+			getContract('GearToken').abi,
 			this._provider.getSigner(0)
 		)
 	}
