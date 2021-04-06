@@ -5,6 +5,8 @@ import { ethers } from 'ethers'
 import GearTokenArtifact from '../contracts/GearToken.json'
 import contractAddress from '../contracts/contract-address.json'
 
+import { Row } from './styled/Layout'
+
 import { NoWalletDetected } from './NoWalletDetected'
 import { ConnectWallet } from './ConnectWallet'
 import { Loading } from './Loading'
@@ -20,13 +22,14 @@ import {
 	ERROR_CODE_TX_REJECTED_BY_USER,
 } from '../util/constants'
 import { getRpcMessage } from '../util/errorHelper'
+import { getNetworkName } from '../util/networkHelper'
 
 export class Dapp extends React.Component {
 	constructor(props) {
 		super(props)
 
 		this.initialState = {
-			// The user's address and balance
+			// Wallet details
 			selectedAddress: undefined,
 			balance: undefined,
 			// The ID about transactions being sent, and any possible error with them
@@ -63,15 +66,18 @@ export class Dapp extends React.Component {
 
 		return (
 			<div className="container p-4">
-				<div className="row">
-					<div className="col-12">
-						<h1>ExCinis</h1>
-						<p>
-							Welcome <b>{this.state.selectedAddress}</b>, you have{' '}
-							<b>{this.state.gearTotal.toString()} ExCinis Gear</b>.
-						</p>
-					</div>
-				</div>
+				<Row between>
+					<h1>ExCinis</h1>
+					<span>
+						Connected to <b>{getNetworkName()}</b>
+					</span>
+				</Row>
+				<Row>
+					<p>
+						Welcome <b>{this.state.selectedAddress}</b>, you have{' '}
+						<b>{this.state.gearTotal.toString()} ExCinis Gear</b>.
+					</p>
+				</Row>
 
 				<hr />
 
