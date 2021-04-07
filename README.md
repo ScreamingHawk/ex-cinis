@@ -119,4 +119,4 @@ The technology stack for our Dapp:
 
 [Michael Standen](https://michael.standen.link)
 
-This software is provided under the [MIT License](https://tldrlegal.com/license/mit-license) so it's free to use so long as you give me credit.
+This software is provided under the [MIT Licenses](https://tldrlegal.com/license/mit-license) so it's free to use so long as the credits in the Licenses are retained.
