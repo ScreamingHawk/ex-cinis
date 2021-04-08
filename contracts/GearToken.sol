@@ -51,7 +51,7 @@ contract GearToken is ERC721Enumerable {
 		address owner //, string memory tokenURI)
 	) public canOwnMoreGear(owner) returns (uint256) {
 		uint256 id = _tokenIds.current();
-		_mint(owner, id);
+		_safeMint(owner, id);
 
 		console.log('Minting id ', id, ' for ', owner);
 
