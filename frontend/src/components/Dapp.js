@@ -7,7 +7,7 @@ import { Row } from './styled/Layout'
 import { NoWalletDetected } from './NoWalletDetected'
 import { ConnectWallet } from './ConnectWallet'
 import { Loading } from './Loading'
-import { AwardGear } from './AwardGear'
+import { MintRandomGear } from './MintRandomGear'
 import { ListGears } from './ListGears'
 import { TransactionErrorMessage } from './TransactionErrorMessage'
 import { WaitingForTransactionMessage } from './WaitingForTransactionMessage'
@@ -105,7 +105,7 @@ export class Dapp extends React.Component {
 							<NoEtherMessage selectedAddress={this.state.selectedAddress} />
 						)}
 
-						<AwardGear awardGear={() => this._awardGear()} />
+						<MintRandomGear mintRandomGear={() => this._mintRandomGear()} />
 
 						{this.state.gearTotal.gt(0) && (
 							<ListGears gears={this.state.gears} />
@@ -156,9 +156,9 @@ export class Dapp extends React.Component {
 		})
 
 		// Init contract
-		this._gearToken = new ethers.Contract(
-			getContractAddress('GearToken'),
-			getContract('GearToken').abi,
+		this._gearFactory = new ethers.Contract(
+			getContractAddress('GearFactory'),
+			getContract('GearFactory').abi,
 			this._provider.getSigner(0)
 		)
 	}
@@ -168,38 +168,43 @@ export class Dapp extends React.Component {
 	}
 
 	async _updateBalance() {
-		const gearTotal = await this._gearToken.balanceOf(
+		const gearTotal = await this._gearFactory.balanceOf(
 			this.state.selectedAddress
 		)
 		this.setState({ gearTotal })
-		console.log(this._gearToken)
+		console.log(this._gearFactory)
 		this._updateGears()
 	}
 
 	async _updateGears() {
 		const gears = []
 		for (let i = 0; i < this.state.gearTotal; i++) {
-			const token = await this._gearToken.tokenOfOwnerByIndex(
+			const tokenId = await this._gearFactory.tokenOfOwnerByIndex(
 				this.state.selectedAddress,
 				i
 			)
-			const gear = await this._gearToken.gears(token)
+			const gearData = await this._gearFactory.getGearData(tokenId)
+			const tokenURI = await this._gearFactory.tokenURI(tokenId)
 			// Append id
 			gears.push({
 				index: i,
-				...gear,
+				tokenId,
+				gearData,
+				tokenURI,
 			})
 		}
 		this.setState({ gears })
 	}
 
 	// Award Gear
-	async _awardGear() {
+	async _mintRandomGear() {
 		try {
 			// Clear error
 			this._dismissTransactionError()
 
-			const tx = await this._gearToken.awardGear(this.state.selectedAddress)
+			const tx = await this._gearFactory.mintRandomGear(
+				this.state.selectedAddress
+			)
 			this.setState({ txBeingSent: tx.hash })
 
 			// Wait for tx to be mined

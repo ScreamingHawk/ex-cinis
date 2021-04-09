@@ -2,36 +2,30 @@
 pragma solidity ^0.8.0;
 
 import 'hardhat/console.sol';
+import '@openzeppelin/contracts/access/Ownable.sol';
 import '@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol';
+import '@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol';
 import '@openzeppelin/contracts/utils/Counters.sol';
 
-contract GearToken is ERC721Enumerable {
+contract GearToken is ERC721Enumerable, Ownable {
 	//FIXME event NewGear();
 	//FIXME event ActivatedGear(address _owner, uint256 gearId);
 
+	using Strings for uint256;
 	using Counters for Counters.Counter;
 	Counters.Counter private _tokenIds;
 
-	constructor() ERC721('ExCinis Gear', 'EXCG') {
-		awardGear(msg.sender);
-	}
-
-	struct Gear {
-		uint256 data;
-		bool isWeapon;
-	}
-
-	Gear[] public gears;
-	mapping(uint256 => uint256) public tokenIdGearIndex;
-
 	uint8 constant maxGearPerOwner = 8;
-	uint8 private dataDigits = 16; // FIXME double check this value
-	uint256 dataModulus = 10**dataDigits;
-	uint256 private randNonce = 0;
+	string private baseURI;
 
+	mapping(uint256 => uint256) public tokenIdGearData;
 	mapping(address => uint256) public addressActiveGear;
 
 	//FIXME remove active gear when traded, burnt
+
+	constructor() ERC721('ExCinis Gear', 'EXCG') {
+		baseURI = 'https://raw.githack.com/superepicgecko/ex-cinis-assets/master/token_data/';
+	}
 
 	/**
 	 * @dev Test if additional gear ownership will overflow.
@@ -44,39 +38,59 @@ contract GearToken is ERC721Enumerable {
 		_;
 	}
 
-	/**
-	 * @dev Creates the gear for the player.
-	 */
-	function awardGear(
-		address owner //, string memory tokenURI)
-	) public canOwnMoreGear(owner) returns (uint256) {
-		uint256 id = _tokenIds.current();
-		_safeMint(owner, id);
+	function setBaseURI(string memory newBaseURI) external onlyOwner {
+		baseURI = newBaseURI;
+	}
 
-		console.log('Minting id ', id, ' for ', owner);
-
-		Gear memory gear =
-			Gear(
-				_generateRandomData() % dataModulus,
-				(_generateRandomData() & 1) > 0
-			);
-		gears.push(gear);
-		tokenIdGearIndex[id] = gears.length;
-
-		_tokenIds.increment();
-		return id;
+	function _baseURI() internal view override returns (string memory) {
+		return baseURI;
 	}
 
 	/**
-	 * @dev Generates random data
+	 * @dev See {IERC721Metadata-tokenURI}.
 	 */
-	function _generateRandomData() private returns (uint256) {
-		randNonce++;
+	function tokenURI(uint256 tokenId)
+		public
+		view
+		virtual
+		override
+		returns (string memory)
+	{
+		require(
+			_exists(tokenId),
+			'ERC721Metadata: URI query for nonexistent token'
+		);
+
+		string memory base = _baseURI();
 		return
-			uint256(
-				keccak256(
-					abi.encodePacked(msg.sender, randNonce, block.timestamp)
+			bytes(base).length > 0
+				? string(
+					abi.encodePacked(base, getGearData(tokenId).toString())
 				)
-			);
+				: '';
+	}
+
+	// @dev Returns the gear data for the given token
+	function getGearData(uint256 _tokenId) public view returns (uint256) {
+		return tokenIdGearData[_tokenId];
+	}
+
+	/**
+	 * @dev Creates the gear for the player.
+	 */
+	function awardGear(address owner, uint256 gearData)
+		internal
+		canOwnMoreGear(owner)
+		returns (uint256)
+	{
+		uint256 id = _tokenIds.current();
+
+		console.log('Minting id ', id, ' for ', owner);
+
+		_safeMint(owner, id);
+		tokenIdGearData[id] = gearData;
+
+		_tokenIds.increment();
+		return id;
 	}
 }

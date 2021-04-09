@@ -1,13 +1,13 @@
 import React from 'react'
 
-export function AwardGear({ awardGear }) {
+export function MintRandomGear({ mintRandomGear }) {
 	return (
 		<div>
 			<h4>Award Gear</h4>
 			<form
 				onSubmit={event => {
 					event.preventDefault()
-					awardGear()
+					mintRandomGear()
 				}}
 			>
 				<div className="form-group">

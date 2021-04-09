@@ -21,7 +21,7 @@ const main = async () => {
 		(await deployer.getBalance()).toString()
 	)
 
-	const names = ['GearToken', 'Map']
+	const names = ['GearFactory', 'Map']
 
 	const addresses = []
 	for (let i = 0; i < names.length; i++) {

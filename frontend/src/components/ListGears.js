@@ -9,7 +9,10 @@ export function ListGears({ gears }) {
 				<ul>
 					{gears.map(gear => (
 						<li key={`gear_item_${gear.index}`}>
-							{gear.data._hex}: {gear.isWeapon ? 'Weapon' : 'Armour'}
+							<span>
+								#{gear.tokenId.toString()}: {gear.gearData.toString()}
+							</span>{' '}
+							<a href={gear.tokenURI}>JSON data</a>
 						</li>
 					))}
 				</ul>

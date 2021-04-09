@@ -9,7 +9,7 @@ let hardhatContracts, mainnetContracts, rinkebyContracts
 try {
 	hardhatContracts = {
 		addresses: require('../contracts/localhost/contract-address.json'),
-		GearToken: require('../contracts/localhost/GearToken'),
+		GearFactory: require('../contracts/localhost/GearFactory'),
 		Map: require('../contracts/localhost/Map'),
 	}
 } catch (e) {
@@ -18,7 +18,7 @@ try {
 try {
 	rinkebyContracts = {
 		addresses: require('../contracts/rinkeby/contract-address.json'),
-		GearToken: require('../contracts/rinkeby/GearToken'),
+		GearFactory: require('../contracts/rinkeby/GearFactory'),
 		Map: require('../contracts/rinkeby/Map'),
 	}
 } catch (e) {
@@ -27,7 +27,7 @@ try {
 try {
 	mainnetContracts = {
 		addresses: require('../contracts/mainnet/contract-address.json'),
-		GearToken: require('../contracts/mainnet/GearToken'),
+		GearFactory: require('../contracts/mainnet/GearFactory'),
 		Map: require('../contracts/mainnet/Map'),
 	}
 } catch (e) {
