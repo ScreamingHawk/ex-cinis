@@ -61,8 +61,7 @@ describe('GearFactory contract', function () {
 			const gearData = await gearFactory.getGearData(tokenId)
 			const uri = await gearFactory.tokenURI(tokenId)
 			expect(uri).to.equal(
-				'https://raw.githack.com/superepicgecko/ex-cinis-assets/master/token_data/' +
-					gearData
+				`https://raw.githack.com/superepicgecko/ex-cinis-assets/master/token_data/${gearData}.json`
 			)
 		})
 	})

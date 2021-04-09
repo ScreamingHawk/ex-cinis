@@ -65,7 +65,11 @@ contract GearToken is ERC721Enumerable, Ownable {
 		return
 			bytes(base).length > 0
 				? string(
-					abi.encodePacked(base, getGearData(tokenId).toString())
+					abi.encodePacked(
+						base,
+						getGearData(tokenId).toString(),
+						'.json'
+					)
 				)
 				: '';
 	}
