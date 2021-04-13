@@ -2,16 +2,17 @@ import React from 'react'
 
 import { ethers } from 'ethers'
 
-import { Row } from './styled/Layout'
-
+import { Login } from './Login'
 import { NoWalletDetected } from './NoWalletDetected'
-import { ConnectWallet } from './ConnectWallet'
-import { Loading } from './Loading'
-import { MintRandomGear } from './MintRandomGear'
-import { ListGears } from './ListGears'
-import { TransactionErrorMessage } from './TransactionErrorMessage'
-import { WaitingForTransactionMessage } from './WaitingForTransactionMessage'
-import { NoEtherMessage } from './NoEtherMessage'
+
+import { Row } from '../components/styled/Layout'
+
+import { Loading } from '../components/Loading'
+import { MintRandomGear } from '../components/MintRandomGear'
+import { ListGears } from '../components/ListGears'
+import { TransactionErrorMessage } from '../components/TransactionErrorMessage'
+import { WaitingForTransactionMessage } from '../components/WaitingForTransactionMessage'
+import { NoEtherMessage } from '../components/NoEtherMessage'
 
 import {
 	HARDHAT_NETWORK_ID,
@@ -55,7 +56,7 @@ export class Dapp extends React.Component {
 
 		if (!this.state.selectedAddress) {
 			return (
-				<ConnectWallet
+				<Login
 					connectWallet={() => this._connectWallet()}
 					networkError={this.state.networkError}
 					dismiss={() => this._dismissNetworkError()}
@@ -251,7 +252,7 @@ export class Dapp extends React.Component {
 		}
 
 		this.setState({
-			networkError: `Contracts not deployed to ${getNetworkName()}. Please connect Metamask to Localhost:8545`,
+			networkError: `Contracts not deployed to ${getNetworkName()}.\nPlease connect Metamask to the correct network`,
 		})
 
 		return false
