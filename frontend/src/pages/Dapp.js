@@ -14,11 +14,7 @@ import { TransactionErrorMessage } from '../components/TransactionErrorMessage'
 import { WaitingForTransactionMessage } from '../components/WaitingForTransactionMessage'
 import { NoEtherMessage } from '../components/NoEtherMessage'
 
-import {
-	HARDHAT_NETWORK_ID,
-	RINKEBY_NETWORK_ID,
-	ERROR_CODE_TX_REJECTED_BY_USER,
-} from '../util/constants'
+import { ERROR_CODE_TX_REJECTED_BY_USER } from '../util/constants'
 import { getRpcMessage } from '../util/errorHelper'
 import { getNetworkName } from '../util/networkHelper'
 
